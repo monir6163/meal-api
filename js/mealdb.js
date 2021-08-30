@@ -43,9 +43,6 @@ const searchFood = async () => {
 const displayReasult = meals => {
     const searchResultId = document.getElementById('search-result');
     searchResultId.textContent = "";
-    if (searchResultId.length == 0) {
-        alert('ok');
-    }
     meals.forEach(meal => {
         const div = document.createElement('div');
         div.classList.add('col-md-3');
