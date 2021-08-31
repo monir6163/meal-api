@@ -1,7 +1,18 @@
+const searchResultId = document.getElementById('search-result');
+const allMealShow = document.getElementById('modal');
+const spinner = `
+<div class="text-center">
+    <div class="spinner-border" role="status" id = "spin">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+`;
 document.getElementById('not-found').style.display = 'none';
+
 const searchFood = async () => {
     const inputField = document.getElementById('name');
     const searchResult = inputField.value;
+    
     inputField.value = "";
     document.getElementById('not-found').style.display = 'none';
     if (searchResult == "") {
@@ -12,6 +23,7 @@ const searchFood = async () => {
 </div>` 
     }
     else{
+        searchResultId.innerHTML = spinner;
         const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchResult}`;
         // fetch(url)
         try{
@@ -23,6 +35,7 @@ const searchFood = async () => {
         // .then(data => displayReasult(data.meals))
         // .catch(error => displayerror(error));
         catch{
+            searchResultId.innerHTML = spinner;
             document.getElementById('not-found').style.display = 'block';
             const message = document.getElementById('not-found');
             message.innerHTML = `<div class=" w-100 mx-auto alert alert-danger alert-dismissible fade show" role="alert">
@@ -30,6 +43,7 @@ const searchFood = async () => {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>`;
         }
+        document.getElementById('spin').style.display = "none";
     }
 }
 // const displayerror = error => {
@@ -42,6 +56,7 @@ const searchFood = async () => {
 // }
 const displayReasult = meals => {
     const searchResultId = document.getElementById('search-result');
+    
     searchResultId.textContent = "";
     meals.forEach(meal => {
         const div = document.createElement('div');
@@ -60,6 +75,7 @@ const displayReasult = meals => {
     });
 }
 const loadFoodDetails = async mealId => {
+    allMealShow.innerHTML = spinner;
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`;
     const res = await fetch(url);
     const data = await res.json();
